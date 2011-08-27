@@ -30,3 +30,14 @@ sudo chown list:list /usr/share/mailman-rest/bin/*
 sudo chmod 0770 /usr/share/mailman-rest/bin/*
 
 That should be it.
+
+OPTIONAL STUFF
+
+If you need/want to see your aliases via a REST interface, you can
+Wrap the section of your aliases file you wish to have exposed in the 
+following formated comment block.  Then you can uncomment the PHP
+action in your apache config file.
+
+## BEGIN ALIASES ##
+samplealias:	sample@example.com
+## END ALIASES ##
