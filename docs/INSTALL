@@ -29,6 +29,15 @@ scripts
 sudo chown list:list /usr/share/mailman-rest/bin/*
 sudo chmod 0770 /usr/share/mailman-rest/bin/*
 
+You will also need to enable the mailparse library in PHP
+
+The following instructions are from http://www.cerb4.com/forums/showthread.php?t=244
+
+sudo apt-get install php5-gd php5-imap php-pear php5-dev make php5-mcrypt
+sudo pecl install mailparse
+sudo /etc/init.d/apache2 restart
+echo "extension=mailparse.so" | sudo tee -a /etc/php5/apache2/php.ini
+
 That should be it.
 
 OPTIONAL STUFF
