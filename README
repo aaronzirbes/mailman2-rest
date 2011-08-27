@@ -1,0 +1,12 @@
+Copyright (c) 2011 Aaron J. Zirbes
+
+This is the basic stuff you need to get a RESTful web interface exposed for Mailman.
+
+This has been used on ubuntu server 10.04, with anything outside of that, you'll have to make your own modifications.
+
+More info is available under the docs folder.
+
+
+--
+Aaron J. Zirbes
+
