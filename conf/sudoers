@@ -1,0 +1,4 @@
+# Cmnd alias specification
+Cmnd_Alias	MMREST = /usr/share/mailman-rest/bin/*
+# Apache may run the following commands as the user list
+www-data ALL=(list) NOPASSWD: MMREST

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+/var/lib/mailman/bin/find_member "$1" \
+	|grep -v "^$1 found in:" \
+	|sed -e 's/^[ \t]*//'
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/var/lib/mailman/bin/list_members -f "$1"

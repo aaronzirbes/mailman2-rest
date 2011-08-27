@@ -1,0 +1,17 @@
+#!/bin/bash
+
+list="$1"
+email="$2"
+name="$3"
+
+if [ "$list" != "" ]; then
+	if [ "$name" == "" ]; then
+		address="$email"
+	else
+		address="$name <$email>"
+	fi
+
+	echo "$address" | /var/lib/mailman/bin/add_members -r - "$list"
+
+fi
+

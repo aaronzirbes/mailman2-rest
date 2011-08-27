@@ -1,0 +1,29 @@
+Mailman 2.0 RESTful interface
+
+Please read the INSTALL doc for details on installation
+
+This exposes a RESTful interface to allow you to manage mailing lists
+via the HTTP protocol.
+
+The following interfaces are exposed:
+
+GET http://localhost/rest/lists/
+	- List all mailing lists
+GET http://localhost/rest/lists/${listname}
+	- Get details about a specific mailing list
+GET http://localhost/rest/members/
+	- Get all members on the list server, does not specify the lists they belong to
+GET http://localhost/rest/members/${listname}
+	- Get the members of a specific list
+GET http://localhost/rest/members/${member_email}
+	- Get the lists a member belongs to
+PUT http://localhost/rest/members/${email}/${display_name}
+	- Change a member's name on all mailing lists
+PUT http://localhost/rest/members/${listname}/${old_email}/${new_email}/${display_name}
+	- Change the email address (and display name) a member is subscribed to a particular list by
+POST http://localhost/rest/members/${listname}/${email}
+POST http://localhost/rest/members/${listname}/${email}/${display_name}
+	- Add a member to a list, with optional display name
+DELETE http://localhost/rest/members/${listname}/${email}
+	- Remove a member from a list
+

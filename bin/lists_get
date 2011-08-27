@@ -1,0 +1,8 @@
+#!/bin/bash
+
+/usr/sbin/list_lists \
+	|egrep -v "[0-9]* matching mailing lists found:" \
+	|sed -e 's/^[ \t]*//' \
+	|egrep -v "^Mailman - Mailman" \
+	|sed -e 's/ - /\t/'
+

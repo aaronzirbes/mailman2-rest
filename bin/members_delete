@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/var/lib/mailman/bin/remove_members -n "$1" "$2"

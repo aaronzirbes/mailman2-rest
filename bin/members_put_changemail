@@ -1,0 +1,10 @@
+#!/bin/bash
+
+list="$1"
+old_email="$2"
+new_email="$3"
+new_name="$4"
+
+/usr/share/mailman-rest/bin/members_delete "$list" "$old_email"
+output=`/usr/share/mailman-rest/bin/members_post "$list" "$new_email" "$new_name"`
+

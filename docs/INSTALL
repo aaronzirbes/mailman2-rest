@@ -1,0 +1,32 @@
+Installation
+
+Unzip this archive to the following folder:
+	/usr/share/mailman-rest/
+
+cd /usr/share
+sudo tar -xvzf ~/mailman-rest.tar.gz
+
+copy the 'list_all_members' python script to your mailman installation
+
+cd /usr/share/mailman-rest
+sudo cp utils/list_all_members /usr/lib/mailman/bin/
+
+Add the lines from conf/sudoers into your /etc/sudoers file
+
+cd /usr/share/mailman-rest
+cat conf/sudoers | sudo tee -a /etc/sudoers
+
+Add the lines from apache2.conf into the approriate apache
+VirtualHost configuration (or apache2.conf)
+
+There's no easy command for this.  You'll have to paste it into your...
+	/etc/apache2/sites-enabled/your_mailman_site
+...file.
+
+run the following to update the permissions on the shell
+scripts
+
+chown list:list /usr/share/mailman-rest/bin/*
+chmod 0770 /usr/share/mailman-rest/bin/*
+
+That should be it.

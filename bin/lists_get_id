@@ -1,0 +1,12 @@
+#!/bin/bash
+
+MMbin=/usr/lib/mailman/bin
+
+if [ "$1" == "" ]; then
+	echo "usage: "
+	echo "	$0 <listname>"
+else
+	foo="$1"
+	runme=`$MMbin/config_list --outputfile - $foo | egrep -v "^#|^$" | egrep "^real_name|^description|^subject_prefix" | awk -F \' '{ printf "%s\t", $2 }'`
+	echo -e "$runme\r"
+fi

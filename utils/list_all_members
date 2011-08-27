@@ -1,0 +1,132 @@
+#! /usr/bin/python
+#
+# Written 2009 by Aaron J. Zirbes, ajz@umn.edu
+# Copyright (C) 1998,1999,2000,2001,2002 by the Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+"""List all mailing lists.
+
+Usage: %(program)s [options]
+
+Where:
+
+    -h / --help
+        Print this text and exit.
+
+"""
+
+import sys
+from types import UnicodeType
+import getopt
+import paths
+
+from Mailman import mm_cfg
+from Mailman import MailList
+from Mailman import Utils
+from Mailman import Errors
+from Mailman.i18n import _
+
+from email.Utils import formataddr
+
+ENC = sys.getdefaultencoding()
+
+program = sys.argv[0]
+
+try:
+    True, False
+except NameError:
+    True = 1
+    False = 0
+
+def usage(code, msg=''):
+    if code:
+        fd = sys.stderr
+    else:
+        fd = sys.stdout
+    print >> fd, _(__doc__)
+    if msg:
+        print >> fd, msg
+    sys.exit(code)
+
+def safe(s):
+    if not s:
+        return ''
+    if isinstance(s, UnicodeType):
+        return s.encode(ENC, 'replace')
+    return unicode(s, ENC, 'replace').encode(ENC, 'replace')
+
+
+def main():
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'abV:h',
+                                   ['advertised', 'bare',
+                                    'virtual-host-overview=',
+                                    'help'])
+    except getopt.error, msg:
+        usage(1, msg)
+
+    advertised = 0
+    vhost = None
+    bare = 0
+    fullnames = True
+
+    names = Utils.list_names()
+    names.sort()
+
+    # output to stdout
+    fp = sys.stdout
+
+    mlists = []
+    longest = 0
+    for n in names:
+        if n == 'mailman':
+            continue
+        mlist = MailList.MailList(n, lock=0)
+        mlists.append(mlist)
+
+    if not mlists and not bare:
+        print _('No mailing lists found')
+        return
+
+    allmembers = []
+    membernames = []
+
+    for mlist in mlists:
+        # Get the lowercased member addresses
+        rmembers = mlist.getRegularMemberKeys()
+        dmembers = mlist.getDigestMemberKeys()
+        # build a single list
+        for addr in rmembers:
+            if addr in allmembers:
+                continue
+            name = fullnames and mlist.getMemberName(addr) or ''
+            membernames.append(formataddr((safe(name), addr)))
+            allmembers.append(addr)
+        for addr in dmembers:
+            if addr in allmembers:
+                continue
+            name = fullnames and mlist.getMemberName(addr) or ''
+            membernames.append(formataddr((safe(name), addr)))
+            allmembers.append(addr)
+    
+    # sort the list
+    membernames.sort()
+    for member in membernames:
+        print >> fp, member
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+email="$1"
+name="$2"
+
+# find the member's lists
+lists=`/usr/share/mailman-rest/bin/members_get_memberid "$email"`
+
+if [ "$lists" != "" ]; then
+
+	# loop through each list, removing the member, then adding the member
+	for list in $lists; do
+		if [ "$list" != "" ]; then
+			/usr/share/mailman-rest/bin/members_delete "$list" "$email"
+			output=`/usr/share/mailman-rest/bin/members_post "$list" "$email" "$name"`
+		else
+			echo "No such member: $email"
+		fi
+	done
+else
+	echo "No such member: $email"
+fi
