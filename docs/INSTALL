@@ -26,7 +26,7 @@ There's no easy command for this.  You'll have to paste it into your...
 run the following to update the permissions on the shell
 scripts
 
-chown list:list /usr/share/mailman-rest/bin/*
-chmod 0770 /usr/share/mailman-rest/bin/*
+sudo chown list:list /usr/share/mailman-rest/bin/*
+sudo chmod 0770 /usr/share/mailman-rest/bin/*
 
 That should be it.
